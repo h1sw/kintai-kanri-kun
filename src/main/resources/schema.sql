@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS profile (
     age INTEGER,
     sex VARCHAR(10),
     address VARCHAR(255),
-    phone_number VARCHAR(),
+    phone_number VARCHAR(20),
     joined_date DATE NOT NULL, -- 入社日
     paid_dayoff INTEGER NOT NULL, -- 有給休暇の残日数
     sub_dayoff INTEGER NOT NULL,  -- 振替休日の残日数
@@ -46,19 +46,22 @@ CREATE TABLE IF NOT EXISTS profile (
 
 -- 変更申請テーブル
 CREATE TABLE IF NOT EXISTS change_request (
-    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -- id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    working_day DATE NOT NULL, 
+    account_id INTEGER NOT NULL,
     working_status VARCHAR(20),
     attend_time TIME,
     leave_time TIME,
     reason VARCHAR(255),
     apply_flag TINYINT(1),
-    FOREIGN KEY (timesheet_id) REFERENCES timesheet(id)
+ 	PRIMARY KEY (account_id, working_day),
+    FOREIGN KEY (account_id) REFERENCES account(id)
 );
 
 -- 休暇申請テーブル
 CREATE TABLE IF NOT EXISTS leave_request (
-    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    working_day DATE NOT NULL
+    -- id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    working_day DATE NOT NULL, 
     account_id INTEGER NOT NULL,
     reason VARCHAR(255),
     apply_flag TINYINT(1),
