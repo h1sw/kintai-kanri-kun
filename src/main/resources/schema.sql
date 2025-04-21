@@ -20,8 +20,10 @@ CREATE TABLE IF NOT EXISTS timesheet (
     working_status VARCHAR(20), -- 例: 'working', 'day off'...
     attend_time TIME, --実際の出勤時間
     leave_time TIME, --実際の退勤時間
-    overtime FLOAT,  --残業時間.出退勤から計算
-    stepout FLOAT, --中抜けに要した時間
+    round_attend_time TIME, --五捨六入した出勤時間
+    round_leave_time TIME, --五捨六入した退勤時間
+    overtime FLOAT,  --残業時間.出退勤から自動計算
+    stepout FLOAT, --中抜けに要した時間.自己申告
     finalized_flag TINYINT(1) NOT NULL, --確定フラグ。管理者への申請でtrue
     edited_flag TINYINT(1) NOT NULL, --編集済みフラグ。編集後にtrue
     requested_flag TINYINT(1) NOT NULL, --申請フラグ。申請中にtrue
@@ -31,8 +33,7 @@ CREATE TABLE IF NOT EXISTS timesheet (
 
 -- プロフィールテーブル
 CREATE TABLE IF NOT EXISTS profile (
-    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    account_id INTEGER NOT NULL,
+    account_id INTEGER NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     age INTEGER,
     sex VARCHAR(10),
@@ -46,7 +47,7 @@ CREATE TABLE IF NOT EXISTS profile (
 
 -- 変更申請テーブル
 CREATE TABLE IF NOT EXISTS change_request (
-    -- id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   　id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     working_day DATE NOT NULL, 
     account_id INTEGER NOT NULL,
     working_status VARCHAR(20),
@@ -54,17 +55,15 @@ CREATE TABLE IF NOT EXISTS change_request (
     leave_time TIME,
     reason VARCHAR(255),
     apply_flag TINYINT(1),
- 	PRIMARY KEY (account_id, working_day),
     FOREIGN KEY (account_id) REFERENCES account(id)
 );
 
 -- 休暇申請テーブル
 CREATE TABLE IF NOT EXISTS leave_request (
-    -- id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     working_day DATE NOT NULL, 
     account_id INTEGER NOT NULL,
     reason VARCHAR(255),
     apply_flag TINYINT(1),
- 	PRIMARY KEY (account_id, working_day),
     FOREIGN KEY (account_id) REFERENCES account(id)
 ); 
