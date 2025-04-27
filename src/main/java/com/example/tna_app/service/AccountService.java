@@ -1,5 +1,8 @@
 package com.example.tna_app.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +41,17 @@ public class AccountService {
 	    profile.setPaidDayoff(form.getPaidDayoff());
 	    profile.setSubDayoff(form.getSubDayoff());
 	    profileRepository.save(profile);
-	}	
+	}
+	
+	public List<Profile> findAllProfiles () {
+		return profileRepository.findAll();
+	}
+
+	public Optional<Profile> findOneProfile(Integer id) {
+		return profileRepository.findById(id);
+	}
+	
+	public void deleteUserById(Integer id) {
+		profileRepository.deleteById(id);
+	}
 }
