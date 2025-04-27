@@ -1,6 +1,6 @@
 package com.example.tna_app.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public class RegistrationForm {
     private String sex;
     private String address;
     private String phone;
-    private Date joinedDate;
+    private LocalDate joinedDate;
     private Integer paidDayoff;
     private Integer subDayoff;
 }
