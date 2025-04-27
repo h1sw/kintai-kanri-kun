@@ -26,9 +26,10 @@
 				<div sec:authorize="hasRole('ROLE_ADMIN')">
 					<p>管理者</p>
 					<p>
-						<a th:href="@{/}">申請一覧</a> | 
+						<a th:href="@{/}">休暇申請一覧</a> | 
+						<a th:href="@{/}">変更申請一覧</a> | 
 						<a th:href="@{/}">社員検索フォーム</a> | 
-						<a th:href="@{/}">社員を登録する</a>
+						<a th:href="@{/admin/add-user}">社員を登録する</a>
 					</p>
 				</div>				
 			</main>

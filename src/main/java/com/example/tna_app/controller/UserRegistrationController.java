@@ -2,31 +2,35 @@ package com.example.tna_app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.tna_app.dto.RegistrationForm;
-import com.example.tna_app.entity.Account;
-import com.example.tna_app.repository.AccountRepository;
+import com.example.tna_app.service.AccountService;
 
 
 @Controller
 @RequestMapping("/admin")
-@SessionAttributes("userForm")
+@SessionAttributes("form")
 public class UserRegistrationController {
 	
 	@Autowired
-	AccountRepository repository;
+	AccountService service; 
+	
+	@ModelAttribute("form")
+	public RegistrationForm initForm() {
+		return new RegistrationForm();
+	}	
 	
 	/* 
 	 * 新規アカウント登録フォームを表示
 	 */
 	@GetMapping("/add-account")
-	public String showAddAccountForm(Model model, @ModelAttribute("userForm") RegistrationForm regForm ) {
+	public String showAddAccountForm(@ModelAttribute("form") RegistrationForm regForm) {
 		
 		return "add-account-form";
 	}
@@ -34,9 +38,34 @@ public class UserRegistrationController {
 	/*
 	 * 新規ユーザー登録を実行する
 	 */
-	@PostMapping("/add-user")
-	public String registerUser(Model model, @ModelAttribute("formModel") Account account ) {
-		repository.saveAndFlush(account);
+	@PostMapping("/add-account")
+	public String registerAccount(@ModelAttribute("form") RegistrationForm regForm, 
+							   @RequestParam String password, 
+							   @RequestParam String role) {
+		regForm.setPassword(password);
+		regForm.setRole(role);
+		return "redirect:/admin/add-profile";
+		
+	}
+	
+	/* 
+	 * 新規アカウント登録フォームを表示
+	 */
+	@GetMapping("/add-profile")
+	public String showAddProfileForm(@ModelAttribute("form") RegistrationForm regForm) {
+		
+		return "add-profile-form";
+	}
+	
+	/*
+	 * 新規プロフィールの登録を実行する
+	 */
+	@PostMapping("/add-profile")
+	public String registerProfile(@ModelAttribute("form") RegistrationForm regForm) {
+		regForm.setPaidDayoff(0);
+		regForm.setSubDayoff(0);
+		service.registerUser(regForm);
+		
 		return "redirect:/home";
 	}
 }
