@@ -1,10 +1,11 @@
 package com.example.tna_app.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class Profile {
 	
 	@Id
 	@Column(name="account_id", nullable=false)
-	private Integer account_id;
+	private Integer accountId;
 	
 	@Column(name="name", nullable=false)
 	private String name;
@@ -34,16 +35,15 @@ public class Profile {
 	private String phone;
 	
 	@Column(name="joined_date", nullable=false)
-	private String joined_date;
+	private LocalDate joinedDate;
 
 	@Column(name="paid_dayoff", nullable=false)
-	private Integer paid_dayoff;
+	private Integer paidDayoff;
 
 	@Column(name="sub_dayoff", nullable=false)
-	private Integer sub_dayoff;
+	private Integer subDayoff;
 	
 	@OneToOne
-	@MapsId
     @JoinColumn(name="account_id", referencedColumnName = "id")
     private Account account;
 	
