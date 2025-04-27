@@ -1,6 +1,7 @@
 package com.example.tna_app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,12 +25,13 @@ public class UserRegistrationController {
 	@ModelAttribute("form")
 	public RegistrationForm initForm() {
 		return new RegistrationForm();
-	}	
+	}
 	
 	/* 
 	 * 新規アカウント登録フォームを表示
 	 */
 	@GetMapping("/add-account")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String showAddAccountForm(@ModelAttribute("form") RegistrationForm regForm) {
 		
 		return "add-account-form";
@@ -39,6 +41,7 @@ public class UserRegistrationController {
 	 * 新規ユーザー登録を実行する
 	 */
 	@PostMapping("/add-account")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String registerAccount(@ModelAttribute("form") RegistrationForm regForm, 
 							   @RequestParam String password, 
 							   @RequestParam String role) {
@@ -52,6 +55,7 @@ public class UserRegistrationController {
 	 * 新規アカウント登録フォームを表示
 	 */
 	@GetMapping("/add-profile")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String showAddProfileForm(@ModelAttribute("form") RegistrationForm regForm) {
 		
 		return "add-profile-form";
@@ -61,6 +65,7 @@ public class UserRegistrationController {
 	 * 新規プロフィールの登録を実行する
 	 */
 	@PostMapping("/add-profile")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String registerProfile(@ModelAttribute("form") RegistrationForm regForm) {
 		regForm.setPaidDayoff(0);
 		regForm.setSubDayoff(0);
