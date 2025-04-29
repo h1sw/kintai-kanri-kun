@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.example.tna_app.dto.RegistrationForm;
 import com.example.tna_app.service.AccountService;
@@ -66,11 +67,11 @@ public class UserRegistrationController {
 	 */
 	@PostMapping("/add-profile")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String registerProfile(@ModelAttribute("form") RegistrationForm regForm) {
+	public String registerProfile(@ModelAttribute("form") RegistrationForm regForm, SessionStatus ss) {
 		regForm.setPaidDayoff(0);
 		regForm.setSubDayoff(0);
 		service.registerUser(regForm);
-		
+		ss.setComplete();
 		return "redirect:/home";
 	}
 }
