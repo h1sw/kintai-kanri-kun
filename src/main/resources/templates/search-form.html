@@ -37,8 +37,8 @@
 						<td th:text="${item.name}"></td>
 						<td th:text="${item.age}"></td>
 						<td th:text="${item.phone}"></td>
-						<td><a th:href="@{/admin/edit}">編集</a></td>
-						<td><a th:href="@{/admin/delete}">削除</a></td>
+						<td><a th:href="@{/admin/edit/{id}(id = ${item.account.id})}">編集</a></td>
+						<td><a th:href="@{/admin/delete/{id}(id = ${item.account.id})}">削除</a></td>
 					</tr>
 				</tbody>
 			</table>

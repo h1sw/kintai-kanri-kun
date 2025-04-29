@@ -43,6 +43,10 @@ public class AccountService {
 	    profileRepository.save(profile);
 	}
 	
+	public void saveProfile(Profile profile) {
+	    profileRepository.save(profile);
+	}
+	
 	public List<Profile> findAllProfiles () {
 		return profileRepository.findAll();
 	}

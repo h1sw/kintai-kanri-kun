@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,7 @@ public class AdminController {
 			model.addAttribute("data", p);
 			return "confirm-delete";
 		}
-		
+
 		@PostMapping("/delete/{id}")
 		public String deleteUser(@PathVariable int id) {
 			service.deleteUserById(id);
@@ -49,14 +50,15 @@ public class AdminController {
 		}
 
 		@GetMapping("/edit/{id}")
-		public String showEditPage(@PathVariable int id, Model model) {
-			
-			return "";
+		public String showEditPage(@PathVariable int id, Model model, @ModelAttribute("form") Profile profile) {
+			Profile p = service.findOneProfile(id).get();
+			model.addAttribute("form", p);
+			return "edit-form";
 		}
-		
-		@PostMapping("/edit/{id}")
-		public String editUser(@PathVariable int id) {
-			
+
+		@PostMapping("/edit/save")
+		public String editUser(@ModelAttribute("form") Profile profile) {
+			service.saveProfile(profile);
 			return "redirect:/home";
 		}
 }

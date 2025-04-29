@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:th="https:/www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" content="text/html">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link th:href="@{/style.css}" rel="stylesheet">
+		<title>アカウント編集画面</title>
+	</head>
+	<body>
+		<header class="navbar sticky-top bg-dark">
+			<nav class="container  text-white">勤怠管理くん</nav>
+		</header>
+		<main class="container">
+			<h1>個人情報編集</h1>
+			<form method="post" action="/admin/edit/save" th:object="${form}">
+				<input type="hidden" class="form-control" th:field="*{accountId}">
+				<div class="mb-3">
+					<label for="name">名前</label>
+					<input type="text" class="form-control" th:field="*{name}">
+				</div>
+				<div class="mb-3">
+					<label for="age">年齢</label>
+					<input type="number" class="form-control" th:field="*{age}">
+				</div>
+				<div class="mb-3">
+					<label for="sex">性別</label>
+					<input type="text" class="form-control" th:field="*{sex}">
+				</div>
+				<div class="mb-3">
+					<label for="address">住所</label>
+					<input type="text" class="form-control" th:field="*{address}">
+				</div>
+				
+				<div class="mb-3">
+					<label for="name">電話番号</label>
+					<input type="text" class="form-control" th:field="*{phone}">
+				</div>
+				<div class="mb-3">
+					<label for="joinedDate">入社日</label>
+					<input type="date" class="form-control" th:field="*{joinedDate}">
+				</div>
+				<div class="mb-3">
+					<label for="joinedDate">有給日数</label>
+					<input type="number" class="form-control" th:field="*{paidDayoff}">
+				</div>
+				<div class="mb-3">
+					<label for="joinedDate">振替休日数</label>
+					<input type="number" class="form-control" th:field="*{subDayoff}">
+				</div>
+				
+				
+				<input type="submit" class="btn btn-primary" value="保存">
+			</form>
+		</main>
+		<footer>
+		</footer>
+	</body>
+</html>
