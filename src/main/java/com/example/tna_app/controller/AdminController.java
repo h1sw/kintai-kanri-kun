@@ -1,7 +1,6 @@
 package com.example.tna_app.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,24 +34,24 @@ public class AdminController {
 			
 			return "redirect:/admin/search";
 		}
-
+		
 		@GetMapping("/delete/{id}")
 		public String showDeletePage(@PathVariable int id, Model model) {
-			Optional<Profile> p = service.findOneProfile(id);
-			model.addAttribute("data", p);
+			Profile profile = service.findOneProfile(id).get();
+			model.addAttribute("form", profile);
 			return "confirm-delete";
 		}
 
-		@PostMapping("/delete/{id}")
-		public String deleteUser(@PathVariable int id) {
-			service.deleteUserById(id);
+		@PostMapping("/delete")
+		public String deleteUser(@ModelAttribute("form") Profile profile) {
+			service.deleteUserById(profile.getAccountId());
 			return "redirect:/home";
 		}
 
 		@GetMapping("/edit/{id}")
-		public String showEditPage(@PathVariable int id, Model model, @ModelAttribute("form") Profile profile) {
-			Profile p = service.findOneProfile(id).get();
-			model.addAttribute("form", p);
+		public String showEditPage(@PathVariable int id, Model model) {
+			Profile profile = service.findOneProfile(id).get();
+			model.addAttribute("form", profile);
 			return "edit-form";
 		}
 

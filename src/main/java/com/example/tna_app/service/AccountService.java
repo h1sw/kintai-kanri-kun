@@ -55,7 +55,9 @@ public class AccountService {
 		return profileRepository.findById(id);
 	}
 	
+	@Transactional
 	public void deleteUserById(Integer id) {
 		profileRepository.deleteById(id);
+		accountRepository.deleteById(id);
 	}
 }

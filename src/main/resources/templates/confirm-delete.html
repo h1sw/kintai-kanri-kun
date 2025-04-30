@@ -13,28 +13,43 @@
 			<nav class="container  text-white">勤怠管理くん</nav>
 		</header>
 		<main class="container">
-			<h1>削除</h1>
-			<p>このユーザーを削除しますか？</p>
-			<table class="table">
-				<thead>
-						<th>社員ID</th>
-						<th>名前</th>
-						<th>年齢</th>
-						<th>電話番号</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="item : ${data}">
-						<td th:text="${item.account.id}"></td>
-						<td th:text="${item.name}"></td>
-						<td th:text="${item.age}"></td>
-						<td th:text="${item.phone}"></td>
-					</tr>
-				</tbody>
-				<form method="post" action="@{/admin/delete/{id}(id=${data.account.id})}">
-					<input  type="submit" class="btn btn-danger" value="削除">
-				</form>
-			</table>
+			<h1>アカウント削除</h1>
+			<p>このアカウントを削除しますか？</p>
+			<form method="post" action="/admin/delete" th:object="${form}">
+				<div class="mb-3">
+					<label for="accountId">社員番号</label>
+					<input type="text" class="form-control" th:field="*{accountId}" readonly>
+				</div>
+				<div class="mb-3">
+					<label for="name">名前</label>
+					<input type="text" class="form-control" th:field="*{name}" disabled>
+				</div>
+				<div class="mb-3">
+					<label for="age">年齢</label>
+					<input type="number" class="form-control" th:field="*{age}" disabled>
+				</div>
+				<div class="mb-3">
+					<label for="sex">性別</label>
+					<input type="text" class="form-control" th:field="*{sex}" disabled>
+				</div>
+				<div class="mb-3">
+					<label for="address">住所</label>
+					<input type="text" class="form-control" th:field="*{address}" disabled>
+				</div>
+				
+				<div class="mb-3">
+					<label for="name">電話番号</label>
+					<input type="text" class="form-control" th:field="*{phone}" disabled>
+				</div>
+				<div class="mb-3">
+					<label for="joinedDate">入社日</label>
+					<input type="date" class="form-control" th:field="*{joinedDate}" disabled>
+				</div>
+
+				
+				<input type="submit" class="btn btn-danger" value="削除">
+			</form>
+
 		</main>
 		<footer>
 		</footer>
