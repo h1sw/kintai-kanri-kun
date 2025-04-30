@@ -55,6 +55,21 @@ public class AccountService {
 		return profileRepository.findById(id);
 	}
 	
+	public List<Profile> findProfile(Integer id, String name) {
+		boolean hasId = id != null;
+		boolean hasName = name != null && !name.isBlank();
+		
+		if (hasId && hasName) {
+			return profileRepository.findByAccountIdAndNameContaining(id, name);
+		} else if (hasId) { 
+			return profileRepository.findByAccountId(id);
+		} else if (hasName) {
+			return profileRepository.findByNameContaining(name);
+		} else {
+			return profileRepository.findAll();
+		}
+	}
+	
 	@Transactional
 	public void deleteUserById(Integer id) {
 		profileRepository.deleteById(id);

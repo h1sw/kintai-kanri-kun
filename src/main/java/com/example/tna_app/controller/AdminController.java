@@ -30,9 +30,14 @@ public class AdminController {
 		}
 		
 		@PostMapping("/search")
-		public String showResult(@RequestParam String keyword, Model model) {
+		public String showResult(
+				@RequestParam(required=false) Integer accountId,
+				@RequestParam(required=false) String name,
+				Model model) {
 			
-			return "redirect:/admin/search";
+			List<Profile> list = service.findProfile(accountId, name);
+			model.addAttribute("searchResults", list);
+			return "search-form";
 		}
 		
 		@GetMapping("/delete/{id}")
