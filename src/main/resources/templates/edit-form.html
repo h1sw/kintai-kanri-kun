@@ -17,6 +17,10 @@
 			<form method="post" action="/admin/edit/save" th:object="${form}">
 				<input type="hidden" class="form-control" th:field="*{accountId}">
 				<div class="mb-3">
+					<label for="accountId">社員番号</label>
+					<p th:text="*{accountId}">
+				</div>
+				<div class="mb-3">
 					<label for="name">名前</label>
 					<input type="text" class="form-control" th:field="*{name}">
 				</div>
