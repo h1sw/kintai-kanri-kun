@@ -13,26 +13,11 @@
 			<nav class="container  text-white">勤怠管理くん</nav>
 		</header>
 		<main class="container">
-			<h1>ホーム画面</h1>
-			<div>
-				<p>ユーザー向け</p>
-				<p>
-					<a th:href="@{/}">出勤する</a> | 
-					<a th:href="@{/}">退勤する</a> | 
-					<a th:href="@{/}">編集する</a> | 
-					<a th:href="@{/}">休暇申請</a> | 
-					<a th:href="@{/}">変更申請</a>
-				</p>
-			</div>
-			<div sec:authorize="hasRole('ROLE_ADMIN')">
-				<p>管理者</p>
-				<p>
-					<a th:href="@{/}">休暇申請一覧</a> | 
-					<a th:href="@{/}">変更申請一覧</a> | 
-					<a th:href="@{/admin/search}">社員検索</a> | 
-					<a th:href="@{/admin/add-user}">社員を登録する</a>
-				</p>
-			</div>
+			<h1>アカウント追加</h1>
+			<p>アカウント追加が完了しました。</p>
+			<p>
+				<a th:href="@{/admin/search}">ユーザー検索画面に戻る</a>
+			</p>
 		</main>
 		<footer>
 		</footer>
