@@ -38,23 +38,27 @@ public class AccountService {
 	    profile.setAddress(form.getAddress());
 	    profile.setPhone(form.getPhone());
 	    profile.setJoinedDate(form.getJoinedDate());
-	    profile.setPaidDayoff(form.getPaidDayoff());
-	    profile.setSubDayoff(form.getSubDayoff());
+	    profile.setPaidDayoff(0);
+	    profile.setSubDayoff(0);
 	    profileRepository.save(profile);
 	}
 	
+	@Transactional
 	public void saveProfile(Profile profile) {
 	    profileRepository.save(profile);
 	}
 	
+	@Transactional
 	public List<Profile> findAllProfiles () {
 		return profileRepository.findAll();
 	}
 
+	@Transactional
 	public Optional<Profile> findOneProfile(Integer id) {
 		return profileRepository.findById(id);
 	}
 	
+	@Transactional
 	public List<Profile> findProfile(Integer id, String name) {
 		boolean hasId = id != null;
 		boolean hasName = name != null && !name.isBlank();
