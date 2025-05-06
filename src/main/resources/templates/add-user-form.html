@@ -17,7 +17,7 @@
 			<form method="post" action="/admin/add-user" th:object="${form}">
 				<div class="mb-3">
 					<label for="password">パスワード</label>
-					<input type="text" class="form-control" th:field="*{password}">
+					<input type="password" class="form-control" th:field="*{password}">
 				</div>
 				<div class="mb-3">
 					<label for="role">権限設定</label>

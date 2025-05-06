@@ -1,9 +1,9 @@
 package com.example.tna_app.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.tna_app.dto.RegistrationForm;
@@ -23,10 +23,14 @@ public class AccountService {
 	@Autowired
 	ProfileRepository profileRepository;
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	@Transactional
 	public void registerUser (RegistrationForm form) {
 		Account account = new Account();
-		account.setPassword(form.getPassword());
+		String hashedPassword = passwordEncoder.encode(form.getPassword());
+		account.setPassword(hashedPassword);
 		account.setRole(form.getRole());
 		accountRepository.save(account);
 		
@@ -46,16 +50,21 @@ public class AccountService {
 	@Transactional
 	public void saveProfile(Profile profile) {
 	    profileRepository.save(profile);
-	}
-	
+	}	
+		
 	@Transactional
 	public List<Profile> findAllProfiles () {
 		return profileRepository.findAll();
 	}
 
 	@Transactional
-	public Optional<Profile> findOneProfile(Integer id) {
-		return profileRepository.findById(id);
+	public Profile findOneProfile(Integer id) {
+		return profileRepository.findById(id).get();
+	}
+	
+	@Transactional
+	public Account findOneAccount(Integer id) {
+		return accountRepository.findById(id).get();
 	}
 	
 	@Transactional

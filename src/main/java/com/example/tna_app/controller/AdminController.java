@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.tna_app.entity.Account;
 import com.example.tna_app.entity.Profile;
 import com.example.tna_app.service.AccountService;
 
@@ -42,7 +43,8 @@ public class AdminController {
 		
 		@GetMapping("/delete/{id}")
 		public String showDeletePage(@PathVariable int id, Model model) {
-			Profile profile = service.findOneProfile(id).get();
+			Profile profile = service.findOneProfile(id);
+			
 			model.addAttribute("form", profile);
 			return "confirm-delete";
 		}
@@ -55,13 +57,18 @@ public class AdminController {
 
 		@GetMapping("/edit/{id}")
 		public String showEditPage(@PathVariable int id, Model model) {
-			Profile profile = service.findOneProfile(id).get();
+			Profile profile = service.findOneProfile(id);
 			model.addAttribute("form", profile);
 			return "edit-form";
 		}
 
 		@PostMapping("/edit/save")
 		public String editUser(@ModelAttribute("form") Profile profile) {
+			Integer accountId = profile.getAccountId();
+			Account account = service.findOneAccount(accountId);
+			account.setRole(profile.getAccount().getRole());
+			profile.setAccount(account);
+			
 			service.saveProfile(profile);
 			return "redirect:/home";
 		}
