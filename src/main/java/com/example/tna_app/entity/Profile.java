@@ -2,6 +2,8 @@ package com.example.tna_app.entity;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -34,6 +36,7 @@ public class Profile {
 	@Column(name="phone_number")
 	private String phone;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="joined_date", nullable=false)
 	private LocalDate joinedDate;
 
