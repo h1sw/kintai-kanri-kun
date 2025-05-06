@@ -72,4 +72,20 @@ public class AdminController {
 			service.saveProfile(profile);
 			return "redirect:/home";
 		}
+		
+		@GetMapping("/edit/{id}/password")
+		public String showEditPassword(@PathVariable int id, Model model) {
+			model.addAttribute("id", id);
+			return "edit-password";
+		}
+		
+		@PostMapping("/edit/{id}/password")
+		public String updatePassword(@PathVariable int id, @RequestParam("password") String password) {
+			
+			Account account = service.findOneAccount(id);
+			account.setPassword(service.encryptedPasswordOf(password));
+			service.saveAccount(account);
+			
+			return "redirect:/admin/edit/"+id;
+		}
 }

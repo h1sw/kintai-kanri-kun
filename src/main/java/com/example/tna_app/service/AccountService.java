@@ -48,8 +48,18 @@ public class AccountService {
 	}
 	
 	@Transactional
+	public String encryptedPasswordOf (String str) {
+		return passwordEncoder.encode(str);
+	}
+	
+	@Transactional
 	public void saveProfile(Profile profile) {
 	    profileRepository.save(profile);
+	}
+	
+	@Transactional
+	public void saveAccount(Account account) {
+	    accountRepository.save(account);
 	}	
 		
 	@Transactional

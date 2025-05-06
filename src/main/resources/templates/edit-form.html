@@ -22,7 +22,10 @@
 				</div>
 				<div class="mb-3">
 					<label for="password">パスワード</label>
-					<input type="password" class="form-control" value="????????" readonly>
+					<p>
+						<span>********</span>
+						<a th:href="@{/admin/edit/{str}/password(str = ${form.account.id})}">変更する</a>
+				    </p>
 				</div>
 				<div class="mb-3">
 					<label for="role">権限設定</label>
