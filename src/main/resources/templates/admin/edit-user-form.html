@@ -14,7 +14,7 @@
 		</header>
 		<main class="container">
 			<h1>個人情報編集</h1>
-			<form method="post" action="/admin/edit/save" th:object="${form}">
+			<form method="post" action="/admin/edit-user" th:object="${form}">
 				<input type="hidden" class="form-control" th:field="*{accountId}">
 				<div class="mb-3">
 					<label for="accountId">社員番号</label>
@@ -24,7 +24,7 @@
 					<label for="password">パスワード</label>
 					<p>
 						<span>********</span>
-						<a th:href="@{/admin/edit/{str}/password(str = ${form.account.id})}">変更する</a>
+						<a th:href="@{/admin/edit-user-password/{str}(str = ${form.account.id})}">変更する</a>
 				    </p>
 				</div>
 				<div class="mb-3">

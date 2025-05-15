@@ -14,7 +14,7 @@
 		</header>
 		<main class="container">
 			<h1>社員検索</h1>
-			<form method="post" action="/admin/search">
+			<form method="post" action="/admin/search-user">
 				<div class="mb-3">
 					<label for="accountId">社員番号</label>
 					<input type="text" class="form-control" name="accountId">
@@ -39,8 +39,8 @@
 						<td th:text="${item.name}"></td>
 						<td th:text="${item.age}"></td>
 						<td th:text="${item.phone}"></td>
-						<td><a th:href="@{/admin/edit/{id}(id = ${item.account.id})}">編集</a></td>
-						<td><a th:href="@{/admin/delete/{id}(id = ${item.account.id})}">削除</a></td>
+						<td><a th:href="@{/admin/edit-user/{id}(id = ${item.account.id})}">編集</a></td>
+						<td><a th:href="@{/admin/delete-user/{id}(id = ${item.account.id})}">削除</a></td>
 					</tr>
 				</tbody>
 			</table>
