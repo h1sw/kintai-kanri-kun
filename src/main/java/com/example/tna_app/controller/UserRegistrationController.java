@@ -31,7 +31,7 @@ public class UserRegistrationController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public String showAddAccountForm(@ModelAttribute("form") RegistrationForm regForm) {
 		
-		return "add-user-form";
+		return "admin/add-user-form";
 	}
 	
 	/*
@@ -52,31 +52,8 @@ public class UserRegistrationController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public String showSuccessRegistration() {
 		
-		return "success-add-user";
+		return "admin/success-add-user";
 		
 	}
-	
-//	/* 
-//	 * 新規アカウント登録フォームを表示
-//	 */
-//	@GetMapping("/add-profile")
-//	@PreAuthorize("hasRole('ADMIN')")
-//	public String showAddProfileForm(@ModelAttribute("form") RegistrationForm regForm) {
-//		
-//		return "add-profile-form";
-//	}
-
-//	/*
-//	 * 新規プロフィールの登録を実行する
-//	 */
-//	@PostMapping("/add-profile")
-//	@PreAuthorize("hasRole('ADMIN')")
-//	public String registerProfile(@ModelAttribute("form") RegistrationForm regForm, SessionStatus ss) {
-//		regForm.setPaidDayoff(0);
-//		regForm.setSubDayoff(0);
-//		service.registerUser(regForm);
-//		ss.setComplete();
-//		return "redirect:/home";
-//	}
 }
 
