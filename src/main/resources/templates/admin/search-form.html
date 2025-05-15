@@ -9,14 +9,19 @@
 		<title>社員検索</title>
 	</head>
 	<body>
-		<header class="navbar sticky-top bg-dark">
-			<nav class="container  text-white">勤怠管理くん</nav>
+		<header class="navbar sticky-top bg-dark d-flex">
+			<nav class="container text-white">
+				<div>勤怠管理くん</div>
+				<div>
+					社員ID: <span th:text="${loginUserId}"></span>  |  <a th:href="@{/logout}">ログアウト</a>
+				</div>
+			</nav>
 		</header>
 		<main class="container">
 			<h1>社員検索</h1>
 			<form method="post" action="/admin/search-user">
 				<div class="mb-3">
-					<label for="accountId">社員番号</label>
+					<label for="accountId">社員ＩＤ</label>
 					<input type="text" class="form-control" name="accountId">
 					<label for="name">名前</label>
 					<input type="text" class="form-control" name="name">

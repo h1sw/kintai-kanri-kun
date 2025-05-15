@@ -13,8 +13,8 @@
 			<nav class="container text-white">
 				<div>勤怠管理くん</div>
 				<div>
-					社員ID: <span th:text="${loginUserId}"></span> | <a th:href="@{/logout}">ログアウト</a>
-				</div>	
+					社員ID: <span th:text="${loginUserId}"></span>  |  <a th:href="@{/logout}">ログアウト</a>
+				</div>
 			</nav>
 		</header>
 		<main class="container">
@@ -22,7 +22,7 @@
 			<form method="post" action="/user/edit-profile" th:object="${form}">
 				<input type="hidden" class="form-control" th:field="*{accountId}">
 				<div class="mb-3">
-					<label for="accountId">社員番号</label>
+					<label for="accountId">社員ＩＤ</label>
 					<p th:text="*{accountId}">
 				</div>
 				<div class="mb-3">
