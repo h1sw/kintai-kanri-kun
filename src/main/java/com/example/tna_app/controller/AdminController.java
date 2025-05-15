@@ -3,6 +3,7 @@ package com.example.tna_app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +24,16 @@ public class AdminController {
 		@Autowired 
 		AccountService service; 
 		
-		@GetMapping("/search")
+		@GetMapping("/search-user")
+		@PreAuthorize("hasRole('ADMIN')")
 		public String showSearchForm(Model model) {
 			List<Profile> list = service.findAllProfiles();
 			model.addAttribute("searchResults", list);
-			return "search-form";
+			return "admin/search-form";
 		}
 		
-		@PostMapping("/search")
+		@PostMapping("/search-user")
+		@PreAuthorize("hasRole('ADMIN')")
 		public String showResult(
 				@RequestParam(required=false) Integer accountId,
 				@RequestParam(required=false) String name,
@@ -38,31 +41,35 @@ public class AdminController {
 			
 			List<Profile> list = service.findProfile(accountId, name);
 			model.addAttribute("searchResults", list);
-			return "search-form";
+			return "admin/search-form";
 		}
 		
-		@GetMapping("/delete/{id}")
+		@GetMapping("/delete-user/{id}")
+		@PreAuthorize("hasRole('ADMIN')")
 		public String showDeletePage(@PathVariable int id, Model model) {
 			Profile profile = service.findOneProfile(id);
 			
 			model.addAttribute("form", profile);
-			return "confirm-delete";
+			return "admin/confirm-delete";
 		}
 
-		@PostMapping("/delete")
+		@PostMapping("/delete-user")
+		@PreAuthorize("hasRole('ADMIN')")
 		public String deleteUser(@ModelAttribute("form") Profile profile) {
 			service.deleteUserById(profile.getAccountId());
 			return "redirect:/home";
 		}
 
-		@GetMapping("/edit/{id}")
+		@GetMapping("/edit-user/{id}")
+		@PreAuthorize("hasRole('ADMIN')")
 		public String showEditPage(@PathVariable int id, Model model) {
 			Profile profile = service.findOneProfile(id);
 			model.addAttribute("form", profile);
-			return "edit-form";
+			return "admin/edit-user-form";
 		}
 
-		@PostMapping("/edit/save")
+		@PostMapping("/edit-user")
+		@PreAuthorize("hasRole('ADMIN')")
 		public String editUser(@ModelAttribute("form") Profile profile) {
 			Integer accountId = profile.getAccountId();
 			Account account = service.findOneAccount(accountId);
@@ -72,20 +79,22 @@ public class AdminController {
 			service.saveProfile(profile);
 			return "redirect:/home";
 		}
-		
-		@GetMapping("/edit/{id}/password")
+
+		@GetMapping("/edit-user-password/{id}")
+		@PreAuthorize("hasRole('ADMIN')")
 		public String showEditPassword(@PathVariable int id, Model model) {
 			model.addAttribute("id", id);
-			return "edit-password";
+			return "admin/edit-password-form";
 		}
 		
-		@PostMapping("/edit/{id}/password")
+		@PostMapping("/edit-user-password/{id}")
+		@PreAuthorize("hasRole('ADMIN')")
 		public String updatePassword(@PathVariable int id, @RequestParam("password") String password) {
 			
 			Account account = service.findOneAccount(id);
 			account.setPassword(service.encryptedPasswordOf(password));
 			service.saveAccount(account);
 			
-			return "redirect:/admin/edit/"+id;
+			return "redirect:/admin/edit-user/"+id;
 		}
 }

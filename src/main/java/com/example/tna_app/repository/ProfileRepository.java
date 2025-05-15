@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.tna_app.entity.Profile;
 
+
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Integer>{
 		
@@ -22,4 +23,14 @@ public interface ProfileRepository extends JpaRepository<Profile, Integer>{
     // IDと名前
     @Query("SELECT p FROM Profile p WHERE p.accountId = :id OR p.name LIKE %:name%")
     List<Profile> findByAccountIdAndNameContaining(@Param("id") Integer id, @Param("name") String name);
+    
+    // 検索ロジック
+    @Query("SELECT p FROM Profile p " +
+    		"JOIN Account a ON p.accountId = a.id " +
+    		"WHERE (:name IS NULL OR p.name LIKE %:name%) " +
+    		"AND (:id IS NULL OR p.accountId = :id)")
+	List<Profile> searchProfiles(
+	    @Param("id") Integer id,
+	    @Param("name") String name
+	);
 }

@@ -3,6 +3,8 @@ package com.example.tna_app.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -79,23 +81,19 @@ public class AccountService {
 	
 	@Transactional
 	public List<Profile> findProfile(Integer id, String name) {
-		boolean hasId = id != null;
-		boolean hasName = name != null && !name.isBlank();
-		
-		if (hasId && hasName) {
-			return profileRepository.findByAccountIdAndNameContaining(id, name);
-		} else if (hasId) { 
-			return profileRepository.findByAccountId(id);
-		} else if (hasName) {
-			return profileRepository.findByNameContaining(name);
-		} else {
-			return profileRepository.findAll();
-		}
+		return profileRepository.searchProfiles(id, name);
 	}
 	
 	@Transactional
 	public void deleteUserById(Integer id) {
 		profileRepository.deleteById(id);
 		accountRepository.deleteById(id);
+	}
+	
+	public Profile findCurrentProfile() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Integer current_user = Integer.parseInt(auth.getName());
+		Profile profile = profileRepository.findById(current_user).get();
+		return profile;
 	}
 }
