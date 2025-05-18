@@ -50,9 +50,8 @@
 					<label for="joinedDate">入社日</label>
 					<input type="date" class="form-control" th:field="*{joinedDate}" disabled>
 				</div>
-
-				
 				<input type="submit" class="btn btn-danger" value="削除">
+				<a th:href="@{/admin/search-user}" class="btn btn-secondary">キャンセル</a>
 			</form>
 
 		</main>

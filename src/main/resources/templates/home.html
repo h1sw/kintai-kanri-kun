@@ -11,7 +11,9 @@
 	<body>
 		<header class="navbar sticky-top bg-dark d-flex">
 			<nav class="container text-white">
-				<div>勤怠管理くん</div>
+				<div>
+					<a th:href="@{/home}">勤怠管理くん</a>
+			    </div>
 				<div>
 					社員ID: <span th:text="${loginUserId}"></span>  |  <a th:href="@{/logout}">ログアウト</a>
 				</div>
@@ -20,25 +22,23 @@
 		<main class="container">
 			<h1>ホーム画面</h1>
 			<div>
-				<p>ユーザー向け</p>
-				<p>
-					<a th:href="@{/}">出勤する</a> | 
-					<a th:href="@{/}">退勤する</a> | 
-					<a th:href="@{/}">編集する</a> | 
-					<a th:href="@{/}">休暇申請</a> | 
-					<a th:href="@{/}">変更申請</a> | 
-					<a th:href="@{/user/edit-profile}">アカウント編集</a> | 
-					<a th:href="@{/user/edit-password}">パスワード変更</a>
-				</p>
+				<h2>メニュー</h2>
+				<ul>
+					<li><a th:href="@{/}">勤怠登録</a></li>
+					<li><a th:href="@{/}">休暇申請</a></li>
+					<li><a th:href="@{/}">変更申請</a></li>
+					<li><a th:href="@{/user/edit-profile}">プロフィール変更</a></li>
+					<li><a th:href="@{/user/edit-password}">パスワード変更</a></li>
+				</ul>
 			</div>
 			<div sec:authorize="hasRole('ROLE_ADMIN')">
-				<p>管理者</p>
-				<p>
-					<a th:href="@{/}">休暇申請一覧</a> | 
-					<a th:href="@{/}">変更申請一覧</a> | 
-					<a th:href="@{/admin/search-user}">社員検索</a> | 
-					<a th:href="@{/admin/add-user}">社員を登録する</a>
-				</p>
+				<h2>管理者向け機能</h2>
+				<ul>
+					<li><a th:href="@{/}">休暇申請一覧</a></li>
+					<li><a th:href="@{/}">変更申請一覧</a></li>
+					<li><a th:href="@{/admin/search-user}">社員検索</a></li>
+					<li><a th:href="@{/admin/add-user}">社員を登録する</a></li>
+				</ul>
 			</div>
 		</main>
 		<footer>
