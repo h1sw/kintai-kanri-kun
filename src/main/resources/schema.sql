@@ -17,13 +17,14 @@ CREATE TABLE IF NOT EXISTS account (
 CREATE TABLE IF NOT EXISTS timesheet (
     account_id INTEGER NOT NULL,
     working_day DATE,
-    working_status VARCHAR(20), -- 例: 'working', 'day off'...
+    working_status VARCHAR(20), -- 例: '出勤', '休日'...
     attend_time TIME, --実際の出勤時間
     leave_time TIME, --実際の退勤時間
     round_attend_time TIME, --五捨六入した出勤時間
     round_leave_time TIME, --五捨六入した退勤時間
-    overtime FLOAT,  --残業時間.出退勤から自動計算
-    stepout FLOAT, --中抜けに要した時間.自己申告
+    breaktime TIME, --休憩時間
+    overtime TIME,  --残業時間.出退勤から自動計算
+    stepout TIME, --中抜けに要した時間.自己申告
     finalized_flag TINYINT(1) NOT NULL, --確定フラグ。管理者への申請でtrue
     edited_flag TINYINT(1) NOT NULL, --編集済みフラグ。編集後にtrue
     requested_flag TINYINT(1) NOT NULL, --申請フラグ。申請中にtrue
