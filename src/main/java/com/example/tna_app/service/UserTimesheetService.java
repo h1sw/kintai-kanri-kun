@@ -2,6 +2,7 @@ package com.example.tna_app.service;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +35,11 @@ public class UserTimesheetService {
 	    return result;
 	}
 	
-	public List<LocalDate> getAllWorkingDays(int year, int month) {
-		List<LocalDate> list = new ArrayList<>();
+	public List<String> getAllFormattedWorkingDays(int year, int month) {
+		List<String> list = new ArrayList<>();
 		YearMonth ym = YearMonth.of(year, month);
 		for(int day = 1; day <= ym.lengthOfMonth(); day++ ) {
-			list.add(LocalDate.of(year, month, day));
+			list.add(LocalDate.of(year, month, day).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		}
 		
 		return list;

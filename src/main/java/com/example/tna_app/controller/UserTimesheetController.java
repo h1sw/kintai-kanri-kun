@@ -70,7 +70,7 @@ public class UserTimesheetController {
 	        @RequestParam("year") Integer year,
 	        @RequestParam("month") Integer month) {
 		
-		List<LocalDate> workingDays = service.getAllWorkingDays(year, month);
+		List<String> workingDays = service.getAllFormattedWorkingDays(year, month);
 		
 	    model.addAttribute("year", year);
 	    model.addAttribute("month", month);
@@ -85,7 +85,7 @@ public class UserTimesheetController {
 	        @RequestParam("year") int year,
 	        @RequestParam("month") int month,
 	        @RequestParam MultiValueMap<String, String> formData
-	) {
+	){
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    Integer accountId = Integer.parseInt(auth.getName());
 
