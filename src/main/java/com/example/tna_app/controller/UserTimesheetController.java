@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.tna_app.entity.Account;
 import com.example.tna_app.entity.Timesheet;
 import com.example.tna_app.entity.TimesheetPK;
+import com.example.tna_app.service.AccountService;
 import com.example.tna_app.service.UserTimesheetService;
 
 @Controller
@@ -24,6 +26,9 @@ public class UserTimesheetController {
 	
 	@Autowired
 	UserTimesheetService service;
+	
+	@Autowired
+	AccountService accountService;
 	
 	@GetMapping("/user/timesheet")
 	public String showTimesheet(
@@ -88,7 +93,8 @@ public class UserTimesheetController {
 	){
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    Integer accountId = Integer.parseInt(auth.getName());
-
+	    Account account = accountService.findOneAccount(accountId);
+	    
 	    YearMonth ym = YearMonth.of(year, month);
 	    List<Timesheet> timesheets = new ArrayList<>();
 	    
@@ -98,7 +104,7 @@ public class UserTimesheetController {
 	        String status = formData.getFirst(key);
 
 	        if (status == null || status.isEmpty()) continue;
-
+	        
 	        Timesheet ts = new Timesheet();
 	        TimesheetPK pk = new TimesheetPK();
 	        pk.setAccountId(accountId);
@@ -109,6 +115,7 @@ public class UserTimesheetController {
 	        ts.setFinalizedFlag(false);
 	        ts.setEditedFlag(false);
 	        ts.setRequestedFlag(false);
+	        ts.setAccount(account);
 	        timesheets.add(ts);
 	    }
 
