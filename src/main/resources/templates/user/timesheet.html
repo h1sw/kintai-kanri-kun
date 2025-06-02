@@ -32,14 +32,16 @@
 					<input type="submit" class="btn btn-primary" value="表示">
 				</div>
 			</form>
+			
+			<p th:if="${msg}" th:text="${msg}"></p>
 
-		    <form th:action="@{/user/timesheet/plan}" method="post" th:unless="${isAvailable}">
+		    <form th:action="@{/user/timesheet/plan}" method="post" th:if="${creatable}">
 		        <input type="hidden" name="year" th:value="${year}" />
 		        <input type="hidden" name="month" th:value="${month}" />
 		        <button type="submit" class="btn btn-primary">勤務表を生成</button>
 		    </form>
 
-			<table class="table" th:if="${isAvailable}">
+			<table class="table" th:if="${isExist}">
 				<thead>
 						<th>日付</th>
 						<th>勤怠</th>

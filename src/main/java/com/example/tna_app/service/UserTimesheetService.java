@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.tna_app.entity.Timesheet;
+import com.example.tna_app.entity.TimesheetPK;
 import com.example.tna_app.repository.TimesheetRepository;
 
 @Service
@@ -21,6 +22,17 @@ public class UserTimesheetService {
 	public List<Timesheet> getTimesheets(int id, int year, int month) {
 		List<Timesheet> list = repository.findTimesheetsByYearAndMonth(id, year, month);
 		return list;
+	}
+	
+	public Timesheet getOneTimesheet(int id, LocalDate date) {
+		TimesheetPK pk = new TimesheetPK();
+		
+		pk.setAccountId(id);
+		pk.setWorkingDay(date);
+		
+		Timesheet ts = repository.findById(pk).orElse(null);
+		
+		return ts;
 	}
 	
 	public List<YearMonth> getAvailableYearMonths(int accountId) {

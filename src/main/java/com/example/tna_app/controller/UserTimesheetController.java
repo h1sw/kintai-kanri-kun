@@ -25,7 +25,7 @@ import com.example.tna_app.service.UserTimesheetService;
 public class UserTimesheetController {
 	
 	@Autowired
-	UserTimesheetService service;
+	UserTimesheetService timesheetService;
 	
 	@Autowired
 	AccountService accountService;
@@ -36,28 +36,40 @@ public class UserTimesheetController {
 	        @RequestParam(value="month", required=false) Integer month,
 	        Model model) {
 		
-		if (year == null || month == null) {
-			LocalDate today = LocalDate.now();
-			month = today.getMonth().getValue();
-			year = today.getYear();
-		}
-		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Integer accountId = Integer.parseInt(auth.getName());
 	    
-		List<YearMonth> availableList = service.getAvailableYearMonths(accountId);
+		LocalDate today = LocalDate.now();
+		Integer currentMonth = today.getMonth().getValue();
+		Integer currentYear = today.getYear();
+		
+		// パラメータがnullなら現在の年月をセットする
+		if (year == null || month == null) {
+			year = currentYear;
+			month = currentMonth;
+		}
+		
+		List<YearMonth> availableList = timesheetService.getAvailableYearMonths(accountId);
 	    YearMonth selected = YearMonth.of(year, month);
-	    boolean isAvailable = availableList.contains(selected);
+	    boolean isExist = availableList.contains(selected);
 
-	    if (isAvailable) {
-	        List<Timesheet> timesheet = service.getTimesheets(accountId, year, month);
+	    if (isExist) {
+	        List<Timesheet> timesheet = timesheetService.getTimesheets(accountId, year, month);
 	        model.addAttribute("timesheet", timesheet);
+	    } else if (selected.equals(YearMonth.of(currentYear, currentMonth).plusMonths(1)) ) {
+	    	model.addAttribute("msg", "来月の勤務表はありません。");
+	    	model.addAttribute("creatable", true);
+	    } else if (selected.equals(YearMonth.of(currentYear, currentMonth))){
+	    	model.addAttribute("msg", "今月の勤務表はありません。");
+	    	model.addAttribute("creatable", true);
+	    } else {
+	    	model.addAttribute("msg", "該当する月の勤務表はありません。翌月の勤務表のみ作成できます。");
 	    }
-
+	    
 	    model.addAttribute("year", year);
 	    model.addAttribute("month", month);
 	    model.addAttribute("availableMonths", availableList);
-	    model.addAttribute("isAvailable", isAvailable);
+	    model.addAttribute("isExist", isExist);
 		
 		return "user/timesheet";
 	}
@@ -75,7 +87,7 @@ public class UserTimesheetController {
 	        @RequestParam("year") Integer year,
 	        @RequestParam("month") Integer month) {
 		
-		List<String> workingDays = service.getAllFormattedWorkingDays(year, month);
+		List<String> workingDays = timesheetService.getAllFormattedWorkingDays(year, month);
 		
 	    model.addAttribute("year", year);
 	    model.addAttribute("month", month);
@@ -119,8 +131,64 @@ public class UserTimesheetController {
 	        timesheets.add(ts);
 	    }
 
-	    service.saveAll(timesheets);
+	    timesheetService.saveAll(timesheets);
 	    return "redirect:/user/timesheet?year=" + year + "&month=" + month;
 	}
 
+	
+	@GetMapping("/user/clockin")
+	public String showClockInForm (Model model) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Integer accountId = Integer.parseInt(auth.getName());
+	    Account account = accountService.findOneAccount(accountId);
+	    LocalDate today = LocalDate.now();
+	    Integer year = today.getYear();
+	    Integer month = today.getMonthValue();
+	    Integer day = today.getDayOfMonth();
+	    
+	    model.addAttribute("year", year);
+	    model.addAttribute("month", month);
+	    model.addAttribute("day", day);
+	    
+	    List<YearMonth> availableList = timesheetService.getAvailableYearMonths(accountId);
+	    YearMonth selected = YearMonth.of(year, month);
+	    boolean isExist = availableList.contains(selected);
+	    
+	    if (isExist) {
+	    	Timesheet ts = timesheetService.getOneTimesheet(account.getId(), today);
+	    	model.addAttribute("form", ts);
+	        return "/user/form-clocking-in";
+	    } else {
+	    	return "redirect:/user/timesheet?year=" + year + "&month=" + month;
+	    }
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
