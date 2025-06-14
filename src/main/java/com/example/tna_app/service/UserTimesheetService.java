@@ -1,6 +1,7 @@
 package com.example.tna_app.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -57,7 +58,19 @@ public class UserTimesheetService {
 		return list;
 	}
 	
+	public String formatTimeHHmmIfExist(LocalTime time) {
+		if (time != null) { 
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+			return time.format(formatter);
+		} else 
+			return null;
+	}
+	
 	public void saveAll(List<Timesheet> list) {
 	    repository.saveAll(list);
+	}
+	
+	public void saveOne(Timesheet timesheet) {
+		repository.save(timesheet);
 	}
 }

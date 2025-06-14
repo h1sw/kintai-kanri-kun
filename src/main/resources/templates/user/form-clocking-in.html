@@ -22,6 +22,8 @@
 		<main class="container">
 			<h1>勤怠登録</h1>
 			<form method="post" action="/user/clockin" th:object="${form}">
+				<input type="hidden" class="form-control" th:field="*{id.accountId}">
+				<input type="hidden" class="form-control" th:field="*{id.workingDay}">
 				<div class="mb-3">
 					<label>日付</label>
 					<p th:text="*{id.workingDay}">
@@ -32,20 +34,22 @@
 				</div>
 				<div class="mb-3">
 					<label for="attendTime">出勤時刻</label>
-					<input type="time" class="form-control" th:field="*{attendTime}">
+					<input type="time" class="form-control" name="attendTime" th:value="${form.attendTime != null ? #temporals.format(form.attendTime, 'HH:mm') : ''}">
 				</div>
 				<div class="mb-3">
 					<label for="leaveTime">退勤時刻</label>
-					<input type="time" class="form-control" th:field="*{leaveTime}">
+					<input type="time" class="form-control" name="leaveTime" th:value="${form.leaveTime != null ? #temporals.format(form.leaveTime, 'HH:mm') : ''}">
 				</div>
 				<div class="mb-3">
 					<label for="breaktime">休憩時間</label>
-					<input type="time" class="form-control" th:field="*{breaktime}">
+					<input type="time" class="form-control" name="breaktime" th:value="${form.breaktime != null ? #temporals.format(form.breaktime, 'HH:mm') : ''}">
 				</div>
 				<div class="mb-3">
 					<label for="stepout">中抜け</label>
-					<input type="time"j class="form-control" th:field="*{stepout}">
+					<input type="time" class="form-control" name="stepout" th:value="${form.stepout != null ? #temporals.format(form.stepout, 'HH:mm') : ''}">
 				</div>
+				<input class="btn btn-primary" type="submit" value="保存">
+				<a href="/home" class="btn btn-secondary">キャンセル</a>
 			</form>
 		</main>
 		<footer>

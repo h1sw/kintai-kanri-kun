@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -135,7 +136,7 @@ public class UserTimesheetController {
 	    return "redirect:/user/timesheet?year=" + year + "&month=" + month;
 	}
 
-	
+	// 当日の勤怠入力画面を開く
 	@GetMapping("/user/clockin")
 	public String showClockInForm (Model model) {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -156,13 +157,26 @@ public class UserTimesheetController {
 	    
 	    if (isExist) {
 	    	Timesheet ts = timesheetService.getOneTimesheet(account.getId(), today);
-	    	model.addAttribute("form", ts);
+	        model.addAttribute("form", ts);
 	        return "/user/form-clocking-in";
 	    } else {
 	    	return "redirect:/user/timesheet?year=" + year + "&month=" + month;
 	    }
 	}
 	
+	@PostMapping("/user/clockin")
+	public String clockIn (Model model, @ModelAttribute("form") Timesheet ts) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Integer accountId = Integer.parseInt(auth.getName());
+	    Account account = accountService.findOneAccount(accountId);
+	    TimesheetPK pk = new TimesheetPK();
+	    pk.setAccountId(accountId);
+	    pk.setWorkingDay(ts.getId().getWorkingDay());
+	    ts.setId(pk);
+	    ts.setAccount(account);
+        timesheetService.saveOne(ts);
+        return "redirect:/home";
+	}
 }
 
 
