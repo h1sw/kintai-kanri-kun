@@ -1,5 +1,6 @@
 package com.example.tna_app.service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
@@ -64,6 +65,35 @@ public class UserTimesheetService {
 			return time.format(formatter);
 		} else 
 			return null;
+	}
+	
+	public LocalTime calcRoundedTime(LocalTime time) {
+		LocalTime roundedTime = time;
+		int mm = time.getMinute();
+		int m = mm % 10;
+		
+		if (m <= 5 ) {
+			return roundedTime.withMinute(mm-m).withSecond(0).withNano(0);
+		} else {
+			int roundedMin = mm + 10 - m;
+			if (roundedMin >= 60) {
+				return roundedTime.withHour(time.getHour() + 1).withMinute(roundedMin - 60).withSecond(0).withNano(0);
+			} else {
+				return roundedTime.withMinute(roundedMin).withSecond(0).withNano(0);
+			}
+		}
+	}
+	
+	public LocalTime calcOvertime(LocalTime start, LocalTime end, LocalTime breaktime, LocalTime stepout) {
+		int legalWorkingTime = 8;
+		Duration breaktimeDuration = Duration.between(LocalTime.MIDNIGHT, breaktime);
+		Duration stepoutDuration = Duration.between(LocalTime.MIDNIGHT, stepout);
+		Duration duration = Duration.between(start, end).minus(breaktimeDuration).minus(stepoutDuration).minusHours(legalWorkingTime);
+		if (duration.isNegative()) {
+			return LocalTime.MIDNIGHT;
+		} else {
+		    return LocalTime.MIDNIGHT.plus(duration);
+		}
 	}
 	
 	public void saveAll(List<Timesheet> list) {

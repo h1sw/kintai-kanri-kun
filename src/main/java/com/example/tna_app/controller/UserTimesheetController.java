@@ -174,6 +174,10 @@ public class UserTimesheetController {
 	    pk.setWorkingDay(ts.getId().getWorkingDay());
 	    ts.setId(pk);
 	    ts.setAccount(account);
+	    ts.setRoundAttendTime(timesheetService.calcRoundedTime(ts.getAttendTime()));
+	    ts.setRoundLeaveTime(timesheetService.calcRoundedTime(ts.getLeaveTime()));
+	    ts.setOvertime(timesheetService.calcOvertime(ts.getRoundAttendTime(), ts.getRoundLeaveTime(), ts.getBreaktime(), ts.getStepout()));
+	    
         timesheetService.saveOne(ts);
         return "redirect:/home";
 	}
