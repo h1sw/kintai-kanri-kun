@@ -20,7 +20,7 @@
 			</nav>
 		</header>
 		<main class="container">
-			<h1>勤務表</h1>
+			<h1 th:text="${year}+'年'+${month}+'月の勤務表'"></h1>
 			<form method="post" action="/user/timesheet">
 				<div class="form-row d-flex">
 					<div class="col-sm-1">
@@ -47,22 +47,33 @@
 						<th>勤怠</th>
 						<th>出勤</th>
 						<th>退勤</th>
+						<th>出勤(丸め)</th>
+						<th>退勤(丸め)</th>
 						<th>休憩</th>
 						<th>残業</th>
 						<th>中抜け</th>
+						<th></th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="item : ${timesheet}">
-						<td th:text="${item.id.workingDay}"></td>
+						<td　th:text="${#temporals.format(item.id.workingDay, 'M月d日 (E)')}"></td>
 						<td th:text="${item.workingStatus}"></td>
 						<td th:text="${item.attendTime}"></td>
 						<td th:text="${item.leaveTime}"></td>
+						<td th:text="${item.roundAttendTime}"></td>
+						<td th:text="${item.roundLeaveTime}"></td>
 						<td th:text="${item.breaktime}"></td>
 						<td th:text="${item.overtime}"></td>
 						<td th:text="${item.stepout}"></td>
-						<td><input type="submit" class="btn btn-secondary" value="変更"></td>
+						<td>
+							<a th:href="@{/user/change-request(
+							    year=${#temporals.format(item.id.workingDay, 'yyyy')},
+							    month=${#temporals.format(item.id.workingDay, 'M')},
+							    day=${#temporals.format(item.id.workingDay, 'd')}
+							)}" class="btn btn-secondary">変更申請</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

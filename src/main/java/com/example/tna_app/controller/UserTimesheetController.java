@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.tna_app.entity.Account;
+import com.example.tna_app.entity.ChangeRequest;
 import com.example.tna_app.entity.Timesheet;
 import com.example.tna_app.entity.TimesheetPK;
 import com.example.tna_app.service.AccountService;
+import com.example.tna_app.service.UserRequestService;
 import com.example.tna_app.service.UserTimesheetService;
 
 @Controller
@@ -30,6 +32,9 @@ public class UserTimesheetController {
 	
 	@Autowired
 	AccountService accountService;
+	
+	@Autowired
+	UserRequestService userRequestService;
 	
 	@GetMapping("/user/timesheet")
 	public String showTimesheet(
@@ -181,14 +186,43 @@ public class UserTimesheetController {
         timesheetService.saveOne(ts);
         return "redirect:/home";
 	}
+
+	@GetMapping("/user/change-request")
+	public String showChangeRequestForm(
+			Model model,
+			@RequestParam("year") int year,
+			@RequestParam("month") int month,
+			@RequestParam("day") int day
+			) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Integer accountId = Integer.parseInt(auth.getName());
+//	    Account account = accountService.findOneAccount(accountId);
+	    
+	    LocalDate date = LocalDate.of(year, month, day);
+	    Timesheet ts = timesheetService.getOneTimesheet(accountId, date);
+	    ChangeRequest req = new ChangeRequest();
+	    req.setAccountId(accountId);
+	    req.setWorkingDay(date);
+	    req.setWorkingStatus(ts.getWorkingStatus());
+
+	    model.addAttribute("year", year);
+	    model.addAttribute("month", month);
+	    model.addAttribute("day", day);
+	    model.addAttribute("form", req);
+	    
+		return "/user/form-change-request";
+	}
+	
+	@PostMapping("/user/change-request")
+	public String submitChangeRequest(
+			Model model, 
+			@ModelAttribute("form") ChangeRequest req) {
+
+		userRequestService.addChangeRequest(req);
+		
+		return "redirect:/user/timesheet";
+	}
 }
-
-
-
-
-
-
-
 
 
 
