@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:th="https:/www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" content="text/html">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link th:href="@{/style.css}" rel="stylesheet">
+		<title>タイムシート</title>
+	</head>
+	<body>
+		<header class="navbar sticky-top bg-dark d-flex">
+			<nav class="container text-white">
+				<div>
+					<a th:href="@{/home}">勤怠管理くん</a>
+			    </div>
+				<div>
+					社員ID: <span th:text="${loginUserId}"></span>  |  <a th:href="@{/logout}">ログアウト</a>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<h1>変更申請一覧</h1>
+
+			<table>
+				<thead>
+						<th>日付</th>
+						<th>勤怠</th>
+						<th>出勤</th>
+						<th>退勤</th>
+						<th>休憩</th>
+						<th>残業</th>
+						<th>中抜け</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${data}">
+						<td th:text="${item.id}"></td>
+						<td th:text="${item.workingDay}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</main>
+		<footer>
+		</footer>
+	</body>
+</html>

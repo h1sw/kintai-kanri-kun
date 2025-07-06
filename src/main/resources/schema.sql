@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS profile (
 
 -- 変更申請テーブル
 CREATE TABLE IF NOT EXISTS change_request (
-   　id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    working_day DATE NOT NULL, 
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	working_day DATE NOT NULL, 
     account_id INTEGER NOT NULL,
     working_status VARCHAR(20),
     attend_time TIME,

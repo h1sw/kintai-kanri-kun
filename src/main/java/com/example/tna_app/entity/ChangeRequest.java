@@ -5,9 +5,12 @@ import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -15,14 +18,16 @@ import lombok.Data;
 @Data
 @Table(name="change_request")
 public class ChangeRequest {
+	
     @Id
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "working_day", nullable = false)
     private LocalDate workingDay;
 
-    @Column(name = "account_id", nullable = false)
+    @Column(name = "account_id", nullable = false, insertable = false, updatable = false)
     private Integer accountId;
 
     @Column(name = "working_status")
@@ -39,6 +44,10 @@ public class ChangeRequest {
 
     @Column(name = "apply_flag")
     private Boolean applyFlag = false;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
 }
 
 //-- 変更申請テーブル

@@ -35,8 +35,8 @@
 			<div sec:authorize="hasRole('ROLE_ADMIN')">
 				<h2>管理者向け機能</h2>
 				<ul>
-					<li><a th:href="@{/}">休暇申請一覧</a></li>
-					<li><a th:href="@{/}">変更申請一覧</a></li>
+					<li><a th:href="@{/admin/request/dayoff}">休暇申請一覧</a></li>
+					<li><a th:href="@{/admin/request/change}">変更申請一覧</a></li>
 					<li><a th:href="@{/admin/search-user}">社員検索</a></li>
 					<li><a th:href="@{/admin/add-user}">社員を登録する</a></li>
 				</ul>
