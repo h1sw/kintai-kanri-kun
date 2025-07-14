@@ -21,36 +21,33 @@
 		</header>
 		<main class="container">
 			<h1>変更申請</h1>
-			<form method="post" action="/user/change-request" th:object="${form}">
-				<input type="hidden" class="form-control" th:field="*{account.id}">
-				<input type="hidden" class="form-control" th:field="*{workingDay}">
+			<form method="post" action="/admin/accept-change-request" th:object="${form}">
+				<input type="hidden" class="form-control" th:field="*{id}" readonly>
 				<div class="mb-3">
 					<label>日付</label>
-					<p th:text="*{workingDay}">
+					<p th:text="*{workingDay}"></p>
 				</div>
 				<div class="mb-3">
 					<label for="oldWorkingStatus">変更前の勤怠</label>
-					<input type="text" class="form-control" th:field="*{oldWorkingStatus}" readonly>
+					<p th:text="*{oldWorkingStatus}"></p>
 				</div>
 				<div class="mb-3">
 					<label for="newWorkingStatus">変更後の勤怠</label>
-					<input type="text" class="form-control" th:field="*{newWorkingStatus}" >
+					<p th:text="*{newWorkingStatus}"></p>
 				</div>
-<!--				<div class="mb-3">-->
-<!--					<label for="attendTime">出勤時刻</label>-->
-<!--					<input type="time" class="form-control" name="attendTime" th:value="${form.attendTime != null ? #temporals.format(form.attendTime, 'HH:mm') : ''}">-->
-<!--				</div>-->
-<!--				<div class="mb-3">-->
-<!--					<label for="leaveTime">退勤時刻</label>-->
-<!--					<input type="time" class="form-control" name="leaveTime" th:value="${form.leaveTime != null ? #temporals.format(form.leaveTime, 'HH:mm') : ''}">-->
-<!--				</div>-->
 				<div class="mb-3">
 					<label for="reason">申請理由</label>
-					<textarea class="form-control" name="reason"bn></textarea>
+					<p th:text="*{reason}"></p>
 				</div>
-
-				<input class="btn btn-primary" type="submit" value="保存">
-				<a href="/home" class="btn btn-secondary">キャンセル</a>
+				
+				<span th:if="${form.applyFlag}">
+					<input class="btn btn-primary disabled" type="submit" value="承諾済み">
+				</span> 
+				<span th:if="${!form.applyFlag}">
+					<input class="btn btn-primary" type="submit" value="承諾する">
+				</span>
+				
+				<a th:href="@{/admin/list-change-request}" class="btn btn-secondary">戻る</a>
 			</form>
 		</main>
 		<footer>

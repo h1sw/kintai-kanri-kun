@@ -19,9 +19,14 @@ public class AdminRequestService {
 		return list;
 	} 
 	
-	public List<ChangeRequest> findAllRequestWithProfile() {
-		List<ChangeRequest> list = repository.findAllWithProfile();
-		return list; 
+	public ChangeRequest findById(Integer id) {
+		ChangeRequest cr = repository.findById(id).get();
+		return cr;
 	}
+	
+//	public List<ChangeRequest> findAllRequestWithProfile() {
+//		List<ChangeRequest> list = repository.findAllWithProfile();
+//		return list; 
+//	}
 
 }

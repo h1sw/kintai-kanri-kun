@@ -27,11 +27,14 @@ public class ChangeRequest {
     @Column(name = "working_day", nullable = false)
     private LocalDate workingDay;
 
-    @Column(name = "account_id", nullable = false, insertable = false, updatable = false)
-    private Integer accountId;
+//    @Column(name = "account_id", nullable = false, insertable = false, updatable = false)
+//    private Integer accountId;
 
-    @Column(name = "working_status")
-    private String workingStatus;
+    @Column(name = "old_working_status")
+    private String oldWorkingStatus;
+    
+    @Column(name = "new_working_status")
+    private String newWorkingStatus;
 
     @Column(name = "attend_time")
     private LocalTime attendTime;

@@ -22,23 +22,39 @@
 		<main class="container">
 			<h1>変更申請一覧</h1>
 
-			<table>
+			<table class="table">
 				<thead>
-						<th>日付</th>
-						<th>勤怠</th>
-						<th>出勤</th>
-						<th>退勤</th>
-						<th>休憩</th>
-						<th>残業</th>
-						<th>中抜け</th>
-						<th></th>
-						<th></th>
+						<th>申請ID</th>
+						<th>社員ID</th>
+						<th>社員名</th>
+						<th>業務日</th>
+						<th th:href="@{/}"></th>
+						<th th:href="@{/}"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="item : ${data}">
 						<td th:text="${item.id}"></td>
+						<td th:text="${item.account.id}"></td>
+						<td th:text="${item.account.profile.name}"></td>
 						<td th:text="${item.workingDay}"></td>
+						<td th:text="${item.oldWorkingStatus}"></td>
+						<td th:text="${item.newWorkingStatus}"></td>
+						<td>
+							<a class="link link-primary"
+							  th:href="@{/admin/detail-change-request(
+							    request_id=${item.id}
+							  )}">申請内容</a>
+						</td>
+						<td>
+							<span th:if="${item.applyFlag}">
+								<a class="btn btn-primary disabled">承認済み</a>
+							</span>
+							<span th:if="${!item.applyFlag}">
+								<a class="btn btn-primary"
+								   th:href="@{/admin/detail-change-request(request_id=${item.id})}">承認</a>
+							</span>
+						</td>
 					</tr>
 				</tbody>
 			</table>
