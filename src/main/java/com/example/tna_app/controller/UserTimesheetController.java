@@ -147,7 +147,8 @@ public class UserTimesheetController {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    Integer accountId = Integer.parseInt(auth.getName());
 	    Account account = accountService.findOneAccount(accountId);
-	    LocalDate today = LocalDate.now();
+	    //LocalDate today = LocalDate.now();
+	    LocalDate today = LocalDate.of(2025, 6, 15);
 	    Integer year = today.getYear();
 	    Integer month = today.getMonthValue();
 	    Integer day = today.getDayOfMonth();

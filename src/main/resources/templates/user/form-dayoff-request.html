@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:th="https:/www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" content="text/html">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link th:href="@{/style.css}" rel="stylesheet">
+		<title>休暇申請</title>
+	</head>
+	<body>
+		<header class="navbar sticky-top bg-dark d-flex">
+			<nav class="container text-white">
+				<div>
+					<a th:href="@{/home}">勤怠管理くん</a>
+			    </div>
+				<div>
+					社員ID: <span th:text="${loginUserId}"></span>  |  <a th:href="@{/logout}">ログアウト</a>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<h1>休暇申請</h1>
+			<form method="post" action="/user/dayoff-request" th:object="${form}">
+				<input type="hidden" class="form-control" th:field="*{account.id}">
+				<input type="hidden" class="form-control" th:field="*{workingDay}">
+				<div class="mb-3">
+					<label>日付</label>
+					<p th:text="*{workingDay}">
+				</div>
+				<div class="mb-3">
+					<label for="type">種類</label>
+					<input type="text" class="form-control" name="type">
+				</div>
+				<div class="mb-3">
+					<label for="reason">申請理由</label>
+					<textarea class="form-control" name="reason"></textarea>
+				</div>
+
+				<input class="btn btn-primary" type="submit" value="保存">
+				<a href="/home" class="btn btn-secondary">キャンセル</a>
+			</form>
+		</main>
+		<footer>
+		</footer>
+	</body>
+</html>

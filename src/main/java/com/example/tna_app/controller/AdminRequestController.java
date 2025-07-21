@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.tna_app.entity.ChangeRequest;
+import com.example.tna_app.entity.DayoffRequest;
 import com.example.tna_app.entity.Timesheet;
 import com.example.tna_app.service.AdminRequestService;
 import com.example.tna_app.service.UserTimesheetService;
@@ -24,7 +25,7 @@ public class AdminRequestController {
 	@Autowired
 	UserTimesheetService timesheetService;
 	
-	@GetMapping("/admin/request/change")
+	@GetMapping("/admin/list-change-request")
 	public String showListOfChangeRequest(Model model) {
 		
 		List<ChangeRequest> list = requestService.findAll();
@@ -55,6 +56,24 @@ public class AdminRequestController {
 	    timesheetService.saveOne(ts);
 		
 		return "redirect:/admin/success-accept-request";
+	}
+	
+	@GetMapping("/admin/list-dayoff-request")
+	public String showListOfDayoffRequest(Model model) {
+		
+		List<DayoffRequest> list = requestService.findAllDayoffRequests();
+		model.addAttribute("data", list);
+		
+		return "/admin/list-dayoff-request";
+	}	
+	
+	@GetMapping("/admin/detail-dayoff-request")
+	public String showDayoffRequestDetail(Model model,
+			@RequestParam("request_id") Integer requestId) {
+		DayoffRequest dr = requestService.findDayoffRequestById(requestId);
+		model.addAttribute("form", dr);
+		
+		return "/admin/detail-change-request";
 	}
 	
 	@GetMapping("/admin/success-accept-request")

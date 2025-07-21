@@ -1,4 +1,4 @@
-drop table if exists leave_request;
+drop table if exists dayoff_request;
 drop table if exists change_request;
 drop table if exists timesheet;
 drop table if exists profile;
@@ -61,10 +61,11 @@ CREATE TABLE IF NOT EXISTS change_request (
 );
 
 -- 休暇申請テーブル
-CREATE TABLE IF NOT EXISTS leave_request (
+CREATE TABLE IF NOT EXISTS dayoff_request (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     working_day DATE NOT NULL, 
     account_id INTEGER NOT NULL,
+    type VARCHAR(20) NOT NULL,
     reason VARCHAR(255),
     apply_flag TINYINT(1),
     FOREIGN KEY (account_id) REFERENCES account(id)
